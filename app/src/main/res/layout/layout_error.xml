@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_gravity="center"
+    >
+    <TextView
+        android:id="@+id/lblError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:layout_gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
+        android:text="@string/error"/>
+
+    <TextView
+        android:id="@+id/lblCause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/timeout"
+        android:layout_marginTop="8dp"
+        />
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/retry"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnSettings"
+        android:background="@null"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_settings"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+
+
+

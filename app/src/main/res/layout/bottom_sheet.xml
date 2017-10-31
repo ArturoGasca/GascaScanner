@@ -1,0 +1,16 @@
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="54dp"
+    android:layout_height="wrap_content">
+
+    <fragment
+        android:name="gasca.com.bardcodescanner.Fragments.OptionsFragment"
+        android:id="@+id/fragmentOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
