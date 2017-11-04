@@ -38,7 +38,7 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:visibility="gone"
+
         android:id="@+id/btnSettings"
         android:background="@null"
         android:textColor="@color/colorPrimary"

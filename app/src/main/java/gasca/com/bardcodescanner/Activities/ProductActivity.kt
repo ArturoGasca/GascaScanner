@@ -31,6 +31,7 @@ class ProductActivity : AppCompatActivity() {
 
     companion object{
         val BarcodeObject = "Barcode"
+        val PhaseObject = "Phase"
         val TAG = "ProductActivity"
     }
 
@@ -40,13 +41,17 @@ class ProductActivity : AppCompatActivity() {
         intent.getStringExtra(BarcodeObject)
     }
 
+    val phase by lazy{
+        intent.getIntExtra(PhaseObject, 1)
+    }
+
     lateinit var product: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
-        init()
+
     }
 
     private fun init(){
@@ -68,6 +73,11 @@ class ProductActivity : AppCompatActivity() {
     private fun showError(){
         progressBar.disappear()
         layoutError.appear()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        init()
     }
 
     private fun getProductInfo(){
@@ -92,20 +102,16 @@ class ProductActivity : AppCompatActivity() {
         err.printStackTrace()
         if (err is ConnectException){
             lblCause.text =  getString(R.string.no_internet)
-            btnSettings.disappear()
         } else if (err is SocketTimeoutException){
             lblCause.text =  getString(R.string.timeout)
-            btnSettings.appear()
-            btnSettings.setOnClickListener{ goToSettings() }
         }else if(err is HttpException){
             if (err.code() == 404){
                 lblCause.text =  getString(R.string.not_found)
             }
-            btnSettings.disappear()
         }else{
             lblCause.text =  getString(R.string.unknown_error)
         }
-
+        btnSettings.setOnClickListener{ goToSettings() }
         btnRetry.setOnClickListener { getProductInfo() }
     }
 
@@ -146,15 +152,20 @@ class ProductActivity : AppCompatActivity() {
     private fun fillInformation(product: Product){
         txtPrice.text = "${product.price}"
         txtDescription.text = "${product.description}"
-        txtQuantity.setText("${product.quantity}", TextView.BufferType.EDITABLE)
+        txtQuantity.setText("${product.quantity}")
         if (product.hasOffer()){
-            txtSalePrice.text = "$${product.offerPrice}"
+            txtSalePrice.text = "${product.offerPrice}"
             txtStartDate.text = product.startDate?.format("dd/MM")
             txtEndDate.text = product.endDate?.format("dd/MM")
 
             layoutSale.appear()
         }else{
             layoutSale.disappear()
+        }
+
+        if(phase == 2){
+            btnAddToList.disappear()
+            btnSeeList.disappear()
         }
     }
 

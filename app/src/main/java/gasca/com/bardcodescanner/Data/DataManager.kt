@@ -26,6 +26,7 @@ object DataManager {
     fun sendProducts(products: List<Product>) =
         RetrofitService.instance.sendProducts(products)
         .doOnComplete { CacheManager.clearAll() }
+                .observeOn(AndroidSchedulers.mainThread())
 
     fun updateProductLocally(product: Product) = CacheManager.put(product.barcode!!, product)
     fun getProducts() = CacheManager.getAll().filter { it.requiresPriceHolder }.toMutableList()

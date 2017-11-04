@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
@@ -462,6 +463,7 @@ public class CameraSource {
                 Log.w(TAG, "Zoom is not supported on this device");
                 return currentZoom;
             }
+
             maxZoom = parameters.getMaxZoom();
 
             currentZoom = parameters.getZoom() + 1;
@@ -546,6 +548,24 @@ public class CameraSource {
             return false;
         }
     }
+
+    public void doTouchFocus(final Rect tfocusRect) {
+        synchronized (mCameraLock) {
+            System.out.println("rect " + tfocusRect.toString());
+            List<Camera.Area> focusList = new ArrayList<>();
+            Camera.Area focusArea = new Camera.Area(tfocusRect, 1000);
+            focusList.add(focusArea);
+
+            Camera.Parameters param = mCamera.getParameters();
+            param.setFocusAreas(focusList);
+            param.setMeteringAreas(focusList);
+            mCamera.setParameters(param);
+
+            //mCamera.autoFocus(myAutoFocusCallback);
+            this.cancelAutoFocus();
+        }
+    }
+
 
     /**
      * Gets the current flash mode setting.

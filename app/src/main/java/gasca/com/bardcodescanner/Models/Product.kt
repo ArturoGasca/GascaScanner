@@ -3,6 +3,7 @@ package gasca.com.bardcodescanner.Models
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.*
+import gasca.com.bardcodescanner.Extra.Extensions.format
 
 
 /**
@@ -10,7 +11,7 @@ import java.util.*
  */
 class Product(@SerializedName("barcode") val barcode: String?,
               @SerializedName("description") val description: String?,
-              @SerializedName("price") val price: String?,
+              @SerializedName("price") var price: String?,
               @SerializedName("offerPrice") val offerPrice: String?,
               @SerializedName("startDate") val startDate: Date?,
               @SerializedName("endDate") val endDate: Date?,
@@ -18,7 +19,7 @@ class Product(@SerializedName("barcode") val barcode: String?,
               var requiresPriceHolder: Boolean = false){
 
     fun hasOffer(): Boolean{
-        val now= Calendar.getInstance()
+        val now = Calendar.getInstance()
 
         val startDate = Calendar.getInstance()
         val endDate = Calendar.getInstance()
@@ -34,7 +35,19 @@ class Product(@SerializedName("barcode") val barcode: String?,
         endDate.set(Calendar.MINUTE, 59)
         endDate.set(Calendar.SECOND, 59)
 
-        return if(this.offerPrice == "$0.00"){ false }
-               else now in startDate..endDate
+        return if(this.offerPrice == "$0.00") false
+        else now in startDate..endDate
     }
+
+    fun deepCopy() =
+        Product(
+            this.barcode,
+            this.description,
+            this.price,
+            this.offerPrice,
+            this.startDate,
+            this.endDate,
+            this.quantity,
+            this.requiresPriceHolder
+        )
 }

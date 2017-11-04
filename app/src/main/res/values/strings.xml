@@ -90,7 +90,7 @@
     <string name="pref_default_server">192.168.0.1</string>
     <string name="pref_title_server">Dirección IP del servidor</string>
     <string name="settings">Ajustes</string>
-    <string name="no_internet">Error de Internet. Revise su conexión Wi-Fi.</string>
+    <string name="no_internet">Error de Internet. Revise su conexión Wi-Fi y asegúrese de haber escrito correctamente la dirección IP del servidor en la sección de Ajustes.</string>
     <string name="timeout">Tiempo de espera agotado. Revise su conexión Wi-FI y asegúrese de haber escrito correctamente la dirección IP del servidor en la sección de Ajustes.</string>
     <string name="error">ERROR</string>
     <string name="retry">Reintentar</string>
@@ -101,4 +101,9 @@
     <string name="barcode">Código de barras</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="see_list">Ver mi lista</string>
+    <string name="add_to_list">Agregar a lista</string>
+    <string name="update">Actualizar</string>
+    <string name="success">Éxito</string>
+    <string name="priceholders_sent">Sus portaprecios están listos. Puede pasar a imprimirlos.</string>
 </resources>

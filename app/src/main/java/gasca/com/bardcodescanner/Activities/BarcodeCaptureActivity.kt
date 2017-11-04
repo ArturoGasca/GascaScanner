@@ -22,6 +22,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.hardware.Camera
 import android.os.Build
 import android.os.Bundle
@@ -52,6 +53,7 @@ import java.io.IOException
 import gasca.com.bardcodescanner.camera.CameraSource
 import gasca.com.bardcodescanner.camera.CameraSourcePreview
 import gasca.com.bardcodescanner.camera.GraphicOverlay
+import kotlinx.android.synthetic.main.barcode_capture.*
 import kotlinx.android.synthetic.main.dialog_input.view.*
 
 
@@ -86,6 +88,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
 
     override fun onFlashChanged(active: Boolean) {
         mCameraSource?.flashMode = if (active) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
+
 
     }
 
@@ -226,10 +229,12 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
                 .setRequestedFps(15.0f)
 
         // make sure that auto focus is an available option
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             builder = builder.setFocusMode(
                     if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-        }
+        }*/
+        builder = builder.setFocusMode(null)
+
 
         mCameraSource = builder
                 .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
@@ -353,8 +358,12 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
      * @return true if the activity is ending.
      */
     private fun onTap(rawX: Float, rawY: Float): Boolean {
+        return doOnTap(rawX, rawY)
+
+
+
         // Find tap point in preview frame coordinates.
-        val location = IntArray(2)
+        /*val location = IntArray(2)
         mGraphicOverlay!!.getLocationOnScreen(location)
         val x = (rawX - location[0]) / mGraphicOverlay!!.widthScaleFactor
         val y = (rawY - location[1]) / mGraphicOverlay!!.heightScaleFactor
@@ -382,7 +391,30 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
             nextActivity(best.rawValue)
             return true
         }
-        return false
+        return false*/
+    }
+
+    fun doOnTap(x: Float, y: Float): Boolean{
+
+
+            val touchRect = Rect(
+                (x - 100).toInt(),
+                (y - 100).toInt(),
+                (x + 100).toInt(),
+                (y + 100).toInt())
+
+
+            val targetFocusRect = Rect(
+
+                touchRect.left * 2000/topLayout.width - 1000,
+                touchRect.top * 2000/topLayout.height - 1000,
+                touchRect.right * 2000/topLayout.width - 1000,
+                touchRect.bottom * 2000/topLayout.height - 1000)
+
+            mCameraSource!!.doTouchFocus(targetFocusRect)
+
+        return false;
+
     }
 
     private inner class CaptureGestureListener : GestureDetector.SimpleOnGestureListener() {

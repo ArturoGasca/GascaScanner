@@ -32,13 +32,13 @@ object RetrofitService {
     private fun createWithBaseUrl(newBaseUrl: String): Api?{
         val url = "http://$newBaseUrl/"
         val gson = GsonBuilder()
-                    .setDateFormat("YYYY-MM-dd")
+                    .setDateFormat("yyyy-MM-dd")
                     .create()
 
         return Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(Api::class.java)
 

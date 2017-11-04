@@ -17,6 +17,6 @@ interface Api{
     @GET("products/{barcode}")
     fun getProduct(@Path("barcode") barcode: String): Observable<Product>
 
-    @POST("products/")
+    @POST("priceholder/")
     fun sendProducts(@Body products: List<Product>): Completable
 }
